@@ -37,7 +37,7 @@ while (1):
         temp=string.split(readbuffer, "\n")
         readbuffer=temp.pop( )
         for line in temp:
-            print(line[line.find("#")+len(CHANNEL)+2:])
+            #print(line[line.find("#")+len(CHANNEL)+2:])
             line=string.rstrip(line)
             line=string.split(line)    
             if(line[0]=="PING"):
