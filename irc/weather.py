@@ -14,16 +14,16 @@ import re
 import time
 from time import localtime,strftime
 import Tkinter as t
-top=t.Tk()
-top.mainloop()
-api_key="AIzaSyAwjprwMrCnyOvQqYEYfsGqKW2rPdrKtRg"
-print("Loading Information... ")
-print("")
+import tkMessageBox
+from Tkconstants import LEFT
+import Tkconstants
+flag=0
+api_key="AIzaSyAwjprwMrCnyOvQqYEYfsGqKW2rPdrKtRg"#
+
 '''
 Grabbing the City and country geoip lookup from whatismyip.com
 '''
 def grabinfo(cityoveride,countryoveride,overide):
-
     response = urllib.urlopen('http://myexternalip.com/raw').read()
     req=urllib2.Request("http://whatismyip.com",headers={'User-Agent' : "Magic Browser"})
     response3=urllib2.urlopen(req).read()
@@ -44,7 +44,7 @@ def grabinfo(cityoveride,countryoveride,overide):
     try:
         lat,lng=(jdata["results"][0]["geometry"]["location"]["lat"],jdata["results"][0]["geometry"]["location"]["lng"])
     except:
-        print("Google map could not find the information you entered, please try again")
+        edit("Google map could not find the information you entered, please try again\n")
         grabinfo("a","b",0)
     '''
     using openweathermap to get current weather information by lat and lng
@@ -90,21 +90,67 @@ def grabinfo(cityoveride,countryoveride,overide):
         
 
 
-    print("Local weather for {0} in local area ({1}) is...".format(strftime("%a, %d %b %Y %H:%M:%S", localtime()),city))
-    print ("Sky condition is {0}, {1}").format(status,descrip)
-    print("Temperature is {0} with highs of {1}").format(temp,temphigh)
-    print ("wind speed is {0} with rainfall in the past 3 hours of {1}".format(wind,rain))
+    edit("Local weather for {0} in local area ({1}) is...".format(strftime("%a, %d %b %Y %H:%M:%S", localtime()),city))
+    edit ("Sky condition is {0}, {1}".format(status,descrip))
+    edit("Temperature is {0} with highs of {1}".format(temp,temphigh))
+    edit ("wind speed is {0} with rainfall in the past 3 hours of {1}".format(wind,rain))
     try:
-        print ("Gathered from the station of {0}".format(region))
+        edit ("Gathered from the station of {0}".format(region))
     except:
         pass
-    newcity=raw_input("If local area is inaccurate please enter your city name ")
-    newcountry=raw_input("Please enter your country name ")
-    print ("Gathering new information...")
-    print ("")
+    
+    edit("If local area is inaccurate please enter your city name ")
+def ending():
+    global flag, newcity, newcountry
+    flag=0
+    edit ("Gathering new information...")
+    edit ("")
     grabinfo(newcity,newcountry,1)
+'''
+defines the gui along with the button logic
+'''
+top=t.Tk()
+def start():
+    edit("Starting program, please wait")
+    grabinfo("a","b",0)
+def edit(input):
+    output.config(state="normal")
+    output.insert("insert",input+"\n")
+    output.see(t.END)
+    output.config(state="disabled")
+def cityinput():
+    global flag, newcity
+    if flag==1:
+        countryinput()
+        return
+    newcity=textinput.get()
+    textinput.delete(0, t.END)
+    edit("Please enter your country name ")
+    edit("")
+    flag=1
+def countryinput():
+    
+    
+    global newcountry
+    newcountry=textinput.get()
+    textinput.delete(0, t.END)
+    ending()
+button1=t.Button(top,text="start",command=start)
 
-grabinfo("a","b",0)
-#print(status,descrip,temp,wind,rain,temphigh)
-#print (city,country,ip)
+textinput=t.Entry(top,bd=5)
+label=t.Label(top, text="City/country Entry")
 
+scrollbar=t.Scrollbar()
+
+output=t.Text(yscrollcommand=scrollbar.set)
+output["yscrollcommand"]=scrollbar.set
+button2=t.Button(top,text="Enter",command=cityinput)
+edit("Please click start")
+label.pack()
+textinput.pack()
+button2.pack()
+scrollbar.pack(side=t.RIGHT, fill="y")
+output.pack()
+scrollbar.config(command=output.yview)
+button1.pack()
+top.mainloop()
