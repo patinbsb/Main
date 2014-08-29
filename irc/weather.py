@@ -90,7 +90,7 @@ def grabinfo(cityoveride,countryoveride,overide):
         
 
 
-    edit("Local weather for {0} in local area ({1}) is...".format(strftime("%a, %d %b %Y %H:%M:%S", localtime()),city))
+    edit("Local weather for {0} in local area ({1},{2}) is...".format(strftime("%a, %d %b %Y %H:%M:%S", localtime()),city,country))
     edit ("Sky condition is {0}, {1}".format(status,descrip))
     edit("Temperature is {0} with highs of {1}".format(temp,temphigh))
     edit ("wind speed is {0} with rainfall in the past 3 hours of {1}".format(wind,rain))
@@ -118,7 +118,7 @@ def edit(input):
     output.insert("insert",input+"\n")
     output.see(t.END)
     output.config(state="disabled")
-def cityinput():
+def cityinput(e):
     global flag, newcity
     if flag==1:
         countryinput()
@@ -146,6 +146,7 @@ output=t.Text(yscrollcommand=scrollbar.set)
 output["yscrollcommand"]=scrollbar.set
 button2=t.Button(top,text="Enter",command=cityinput)
 edit("Please click start")
+textinput.bind("<Return>",cityinput)
 label.pack()
 textinput.pack()
 button2.pack()
