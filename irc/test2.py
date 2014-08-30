@@ -3,10 +3,12 @@ Created on 26 Aug 2014
 
 @author: patinbsb
 '''
-segment_hours=360/12
-segment_minutes=360/60
+import json
+dic={"hello":["n","i","g"]}
+json.dump(dic, open("twitch.txt","w"))
+'''
+with open("twitch.txt","w") as f:
+    for line in dic.values():
+        f.write(line)
 
-def findangle(h,m):
-    print((h*segment_hours)-(m*segment_minutes))
-
-findangle(6,30)
+'''
