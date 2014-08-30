@@ -99,7 +99,7 @@ while (1):
             
             
         if instant_rate>rate:
-            if combo>5:
+            if combo>20:
                 endtime=strftime("%a, %d %b %Y %H:%M:%S", localtime())
                 chat_history[starttime+" "+endtime]=(chat_capture)
                 print(chat_history)
