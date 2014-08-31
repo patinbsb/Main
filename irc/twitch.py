@@ -81,7 +81,7 @@ while (1):
         instant_rate=time.clock()-oldtime
         #print(instant_rate)
         #print ticker
-        if ticker>10 and rate_starttime==0:
+        if ticker>9 and rate_starttime==0:
             rate_starttime=time.time()
         if ticker>109 and rate_endtime==0:
             rate_endtime=time.time()
