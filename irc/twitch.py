@@ -9,6 +9,7 @@ import time
 from time import localtime, strftime
 import urllib
 import json
+import datetime
 time.clock() 
 '''
 Setting up info for irc comnnection
@@ -59,7 +60,7 @@ rate=0
 rate_starttime=0
 rate_endtime=0
 chat_capture=[]
-chat_history={}
+uptime=time.clock()
 while (1):
         ##Receiving data from IRC and spitting it into manageable lines.
         readbuffer=readbuffer+s.recv(1024)
@@ -71,7 +72,7 @@ while (1):
             chat_line=(line[line.find("#")+len(CHANNEL)+2:])
             chat_name=line[1:line.find("!")]
             chat_total=(chat_name+": "+chat_line)
-            print chat_total
+            print (chat_total)
             line=string.rstrip(line)
             line=string.split(line)    
             if(line[0]=="PING"):
@@ -101,12 +102,18 @@ while (1):
         if instant_rate>rate:
             if combo>20:
                 endtime=strftime("%a, %d %b %Y %H:%M:%S", localtime())
-                chat_history[starttime+" "+endtime]=(chat_capture)
-                print(chat_history)
-                json.dump(chat_history, open(starttime_file+".txt","a"))
-                #with open(starttime+!".txt","a") as f:
-                    #f.write("\n")
-                    #f.write ("\n")
-                    
+                uptime_now=(time.clock()-uptime)
+                tim=str(datetime.timedelta(seconds=uptime_now))
+                form=tim.replace(":","-")
+                form2=form.replace("-","h ",1)
+                form3=form2.replace("-", "m ")
+                form4=form3.replace(".", "s")
+                with open(starttime_file+", "+form4[:form4.find("s")+1]+".txt","a") as f:
+                    f.write(starttime+" "+endtime+"\n")
+                    f.write("Seconds: "+str(float("{0:.2f}".format((time.clock()-uptime))))+"\n")
+                    for line in chat_capture:
+                        f.write(line+"\n")
+
+                chat_capture=[]
             combo=0
         oldtime=time.clock()
