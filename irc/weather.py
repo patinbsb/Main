@@ -24,7 +24,6 @@ api_key="AIzaSyAtbMGItIKXmcIEDv5_lPrtCWgVJ7PCovg"
 Grabbing the City and country geoip lookup from whatismyip.com
 '''
 def grabinfo(cityoveride,countryoveride,overide):
-    response = urllib.urlopen('http://myexternalip.com/raw').read()
     req=urllib2.Request("http://whatismyip.com",headers={'User-Agent' : "Magic Browser"})
     response3=urllib2.urlopen(req).read()
     soup=BeautifulSoup(response3)
@@ -118,6 +117,8 @@ def edit(input):
     output.insert("insert",input+"\n")
     output.see(t.END)
     output.config(state="disabled")
+def cityinput_but():
+    cityinput(None)
 def cityinput(e):
     global flag, newcity
     if flag==1:
@@ -144,7 +145,7 @@ scrollbar=t.Scrollbar()
 
 output=t.Text(yscrollcommand=scrollbar.set)
 output["yscrollcommand"]=scrollbar.set
-button2=t.Button(top,text="Enter",command=cityinput)
+button2=t.Button(top,text="Enter",command=cityinput_but)
 edit("Please click start")
 textinput.bind("<Return>",cityinput)
 label.pack()
