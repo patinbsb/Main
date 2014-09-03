@@ -18,7 +18,7 @@ import tkMessageBox
 from Tkconstants import LEFT
 import Tkconstants
 flag=0
-api_key="AIzaSyAtbMGItIKXmcIEDv5_lPrtCWgVJ7PCovg"
+api_key="<Enter pass here>"
 
 '''
 Grabbing the City and country geoip lookup from whatismyip.com
