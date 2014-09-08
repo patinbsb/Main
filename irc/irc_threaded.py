@@ -20,7 +20,7 @@ class Socket(object):#the socket class which handles the setup of the irc
         PORT=6667 ##Same with this port, leave it be.
         NICK="patinbsb" ##This has to be your bots username.
         self.NICK=NICK
-        PASS="oauth:1ze7vvb6u80268qjot0uj1yk59ozq3u" ##Instead of a password, use this http://twitchapps.com/tmi/, since Twitch is soon updating to it.
+        PASS="<ENTER PASS HERE>" ##Instead of a password, use this http://twitchapps.com/tmi/, since Twitch is soon updating to it.
         IDENT="patinbsb" ##Bot username again
         REALNAME="patinbsb" ##This doesn't really matter.
         CHANNEL="#"+channel ##This is the channel your bot will be working on.

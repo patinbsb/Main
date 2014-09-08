@@ -4,7 +4,7 @@ Included are various projects which may be work in progress and may have been ad
 
 as of 08/09/2014 the project in this folder include:
 
-irc_threaded.py: An irc application that runs the socket in a separate thread, this removes latency in the gui. an improvement on the twitch.py script
+irc_threaded.py: An irc application that runs the socket in a separate thread, this removes latency in the gui. an improvement on the twitch.py script. This script requires the user to replace the irc login information and provide an oauth key
 
 weather.py: An application with a GUI that allows the user to look up the local weather information using IP geolocation. If this proves to be inaccurate the user can input a city and country name and be delivered the relevant weather information. This script requires the Beautiful soup library to run and also a Google API key which is input into the api_key string. This script uses the openweathermap API to get weather information in JSON format and the google maps api to convert country and city information into latitude and longitude information.
 
