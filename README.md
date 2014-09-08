@@ -2,7 +2,9 @@ Welcome to my rep- page.
 
 Included are various projects which may be work in progress and may have been adapted into other projects. Some of the codes may not be runnable as my API authentication key for websites such as twitch and Google have been removed for security purposes. If you would like to try these scripts please insert your own oauth key into the relevant area. All scripts running using python 2.x and relevant libraries
 
-as of 02/09/2014 the project in this folder include:
+as of 08/09/2014 the project in this folder include:
+
+irc_threaded.py: An irc application that runs the socket in a separate thread, this removes latency in the gui. an improvement on the twitch.py script
 
 weather.py: An application with a GUI that allows the user to look up the local weather information using IP geolocation. If this proves to be inaccurate the user can input a city and country name and be delivered the relevant weather information. This script requires the Beautiful soup library to run and also a Google API key which is input into the api_key string. This script uses the openweathermap API to get weather information in JSON format and the google maps api to convert country and city information into latitude and longitude information.
 

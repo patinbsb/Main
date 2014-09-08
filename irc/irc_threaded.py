@@ -13,7 +13,7 @@ from Tkinter import *
 import json
 import urllib
 
-class Socket(object):
+class Socket(object):#the socket class which handles the setup of the irc
     def __init__(self,channel):
         HOST_EVENT=["199.9.251.213","199.9.252.26"]#second entry seems to be the one
         HOST="irc.twitch.tv" ##This is the Twitch IRC ip, don't change it.
@@ -40,7 +40,7 @@ class Socket(object):
     
 
 
-def threaded_loop(s,CHANNEL):
+def threaded_loop(s,CHANNEL):#the loop which runs on a seperate thread which grabs the irc info every 0.2 seconds
     readbuffer=""
     
     while (1):
@@ -65,7 +65,7 @@ def threaded_loop(s,CHANNEL):
                 sleep(0.1)
 
 
-class Gui(object):
+class Gui(object):#this class contains everything to render the gui and get twitch viewers
     
     
     def getviewers(self):
@@ -118,8 +118,8 @@ class Gui(object):
         self.scrollbar.config(command=self.irc_feed.yview)
         self.text_input.bind("<Return>",lambda event:self.irc_send(self))
         self.top.mainloop()
-    
-def main(channel):
+
+def main(channel):#This is the function that generates the glasses and sets up the threading
     def threaded_loop(s,CHANNEL):
         readbuffer=""
         
@@ -150,16 +150,5 @@ def main(channel):
     new_gui.main()
 
 if __name__=="__main__":
-    main("wingsofdeath")
-'''
-    newsocket=Socket("wingsofdeath")
-    newthread=threading.Thread(target=threaded_loop,args=(newsocket.s,newsocket.CHANNEL))               
-    newthread.start()
-    
-    new_gui=Gui(newsocket.CHANNEL)
-    new_gui.main()
-'''
-
-
-
+    main("wingsofdeath")#Enter channel name here
 
