@@ -5,6 +5,7 @@ Created on 26 Aug 2014
 test
 """
 
+# Imports, all standard libraries
 import socket
 import string
 import threading
@@ -18,32 +19,32 @@ import urllib
 class Socket(object):  # the socket class which handles the setup of the irc
     def __init__(self, channel):
         HOST_EVENT = ["199.9.251.213", "199.9.252.26"]  # second entry seems to be the one
-        HOST = "irc.twitch.tv"  # #This is the Twitch IRC ip, don't change it.
-        PORT = 6667  # #Same with this port, leave it be.
-        NICK = "<ENTER NICK HERE>"  # #This has to be your bots username.
+        HOST = "irc.twitch.tv"  # This is the Twitch IRC ip, don't change it.
+        PORT = 6667  # Same with this port, leave it be.
+        NICK = "<ENTER NICK HERE>"  # This has to be your bots username.
         self.NICK = NICK
-        PASS = "<ENTER PASS HERE>"  # #Instead of a password, use this http://twitchapps.com/tmi/, since Twitch is soon updating to it.
-        IDENT = "<ENTER NICK HERE>"  # #Bot username again
-        REALNAME = "<ENTER NICK HERE>"  # #This doesn't really matter.
-        CHANNEL = "#" + channel  # #This is the channel your bot will be working on.
+        PASS = "<ENTER PASS HERE>"  # Instead of a password, use this http://twitchapps.com/tmi/, since Twitch is soon updating to it.
+        IDENT = "<ENTER NICK HERE>"  # Bot username again
+        REALNAME = "<ENTER NICK HERE>"  # This doesn't really matter.
+        CHANNEL = "#" + channel  # This is the channel your bot will be working on.
         self.CHANNEL = CHANNEL
-        self.s = socket.socket()  # #Creating the socket variable
+        self.s = socket.socket()  # Creating the socket variable
         s = self.s
         if CHANNEL == "#riotgames":
             s.connect((HOST_EVENT[1], PORT))
         else:
-            s.connect((HOST, PORT))  # #Connecting to Twitch
-        s.send("PASS %s\r\n" % PASS)  # #Notice how I'm sending the password BEFORE the username!
-        # #Just sending the rest of the data now.
+            s.connect((HOST, PORT))  # Connecting to Twitch
+        s.send("PASS %s\r\n" % PASS)  # Notice how I'm sending the password BEFORE the username!
+        # Just sending the rest of the data now.
         s.send("NICK %s\r\n" % NICK)
         s.send("USER %s %s bla :%s\r\n" % (IDENT, HOST, REALNAME))
-        # #Connecting to the channel.
+        # Connecting to the channel.
         s.send("JOIN %s\r\n" % CHANNEL)
 
 
 class Gui(object):  # this class contains everything to render the gui and get twitch viewers
 
-    def getviewers(self):
+    def get_viewers(self):
         viewer_raw = urllib.urlopen("https://api.twitch.tv/kraken/streams/{0}".format(self.CHANNEL[1:])).read()
         viewer_json = json.loads(viewer_raw)
         try:
@@ -51,31 +52,34 @@ class Gui(object):  # this class contains everything to render the gui and get t
         except:
             return "N/A"
 
-    def __init__(self, CHANNEL, newsocket):
-        self.newsocket = newsocket
+    def __init__(self, CHANNEL, new_socket):
+        self.new_socket = new_socket
         self.CHANNEL = CHANNEL
         self.top = t.Tk()
         self.viewer_label = Label(self.top, text="{0} stream , Twitch Viewer count: {1}".format(self.CHANNEL[1:],
-                                                                                                str(self.getviewers())))
+                                                                                                str(
+                                                                                                    self.get_viewers())))
         self.text_input = Entry(self.top)
         self.scrollbar = Scrollbar()
         self.irc_feed = Text(yscrollcommand=self.scrollbar.set)
 
     def viewer_input(self):
         self.viewer_label.config(
-            text="{0} stream , Twitch Viewer count: {1}".format(self.CHANNEL[1:], str(self.getviewers())))
+            text="{0} stream , Twitch Viewer count: {1}".format(self.CHANNEL[1:], str(self.get_viewers())))
         self.top.after(30000, self.viewer_input)
 
     def irc_send(self, e):
         user_input = self.text_input.get()
         if "/join" in user_input:
             self.CHANNEL = user_input[user_input.find("/join") + 5:]
-            # #TODO: NEED TO FIND A  SOLUTION
-            #DOESNT WORK :( self.newsocket.s.send(":{0}!{0}@{0}.tmi.twitch.tv".format(self.newsocket.NICK) + " JOIN #" + self.CHANNEL + " :" + user_input + "\r")
+            # TODO: NEED TO FIND A  SOLUTION
+            # DOESNT WORK :( self.newsocket.s.send(":{0}!{0}@{0}.tmi.twitch.tv".format(self.newsocket.NICK) +
+            # " JOIN #" + self.CHANNEL + " :" + user_input + "\r")
             self.text_input.delete(0, END)
             self.viewer_input()
         else:
-            self.newsocket.s.send(":{0}!{0}@{0}.tmi.twitch.tv ".format(self.newsocket.NICK) + "PRIVMSG " + self.CHANNEL + " :" + user_input + "\n")
+            self.new_socket.s.send(":{0}!{0}@{0}.tmi.twitch.tv ".format(
+                self.new_socket.NICK) + "PRIVMSG " + self.CHANNEL + " :" + user_input + "\n")
             self.edit("patinbsb: " + user_input)
             self.text_input.delete(0, END)
 
@@ -134,4 +138,4 @@ def main(channel):  # This is the function that generates the glasses and sets u
 
 
 if __name__ == "__main__":
-    main("worldclasslol")  # Enter channel name here
+    main(raw_input("Channel name: "))  # Enter channel name here
